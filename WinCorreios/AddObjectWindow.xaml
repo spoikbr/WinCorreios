@@ -1,0 +1,89 @@
+﻿<Window x:Class="WinCorreios.AddObjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinCorreios"
+        mc:Ignorable="d"
+        Title="Adicionar ou editar Objetos" Icon="pack://application:,,,/Images/Icon.ico" Height="Auto" Width="310" ResizeMode="NoResize" SizeToContent="Height">
+    <Window.DataContext>
+        <local:AddObjectVM/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Background="#153450" Orientation="Horizontal">
+            <TextBlock Foreground="White" FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" 
+                       Margin="8" Grid.Row="0" FontSize="26">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="Adicionar Objeto"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="Text" Value="Editar Objeto"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <TextBlock FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" FontSize="18" 
+                   Margin="8,8,8,0" Text="NOME DO OBJETO"/>
+            <TextBlock Foreground="Gray" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" FontSize="13" 
+                   Margin="8,0,8,5" Text="Exemplo: Tênis Mãe, Celular do Pai"/>
+
+            <TextBox FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                 Text="{Binding ObjectName, Mode=TwoWay}" FontSize="18" Margin="8,0,8,5"/>
+            <TextBlock FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" FontSize="18" 
+                   Margin="8,10,8,0" Text="CÓDIGO DE RASTREIO"/>
+            <TextBlock Foreground="Gray" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" FontSize="13" 
+                   Margin="8,0,8,5" Text="Código de rastreio no formato AZ123456789AZ"/>
+            <TextBox CharacterCasing="Upper" MaxLength="13" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                 Text="{Binding TrackingCode, Mode=TwoWay}" FontSize="18" Margin="8,0,8,8" >
+                <TextBox.Style>
+                    <Style TargetType="TextBox">
+                        <Setter Property="IsEnabled" Value="True"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+            <Button x:Name="AddButton" Height="30" Width="Auto" FontSize="18" 
+                Margin="0,0,8,8" HorizontalAlignment="Right" >
+                <Button.Style>
+                    <Style BasedOn="{StaticResource MaterialButton}" TargetType="Button">
+                        <Setter Property="Command" Value="{Binding AddObjectCommand}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="Command" Value="{Binding EditObjectCommand}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Content>
+                    <TextBlock FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                            >
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource ButtonTextBlock}" TargetType="TextBlock">
+                                <Setter Property="Text" Value="ADICIONAR"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsEditing}" Value="True">
+                                        <Setter Property="Text" Value="SALVAR"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>

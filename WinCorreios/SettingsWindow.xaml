@@ -1,0 +1,58 @@
+﻿<Window x:Class="WinCorreios.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WinCorreios"
+        mc:Ignorable="d"
+        Title="Configurações" Height="Auto" ResizeMode="NoResize" SizeToContent="Height" Width="275"
+        Icon="pack://application:,,,/Images/Icon.ico">
+    <Window.DataContext>
+        <local:SettingsVM/>
+    </Window.DataContext>
+    <Grid>
+        
+        <StackPanel Orientation="Vertical">
+            <StackPanel Background="#153450" Orientation="Horizontal">
+                <TextBlock Foreground="White" FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" 
+                       Margin="8" Grid.Row="0" FontSize="26" Text="Configurações"/>
+            </StackPanel>
+            <TextBlock Margin="8,15,8,0" FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" 
+                   FontSize="16" Text="ATUALIZAÇÃO DE OBJETOS"/>
+            <Rectangle Height="3" Width="Auto" Fill="#153450"/>
+            <CheckBox FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                      IsChecked="{Binding Path=AutomaticUpdates,Mode=TwoWay}" Margin="8" Content="Atualizar objetos automaticamente"/>
+            <DockPanel Margin="8">
+                <TextBlock IsEnabled="{Binding Path=AutomaticUpdates}" VerticalAlignment="Center" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                    Text="Intervalo de atualização:"/>
+                <ComboBox SelectedItem="{Binding Path=UpdateSpan,Mode=TwoWay}" 
+                          ItemsSource="{Binding Path=UpdateSpansList}" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular"
+                          IsEnabled="{Binding Path=AutomaticUpdates}" Width="Auto" Margin="10,0,0,0" HorizontalAlignment="Stretch"/>
+            </DockPanel>
+            <CheckBox FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                      IsChecked="{Binding Path=Notifications,Mode=TwoWay}" 
+                      Margin="8" Content="Notificar quando houver alterações"/>
+            <TextBlock Margin="8,8,8,0" FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" 
+                   FontSize="16" Text="OUTROS"/>
+            <Rectangle Height="3" Width="Auto" Fill="#153450"/>
+            <CheckBox FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                      Margin="8" IsChecked="{Binding Path=OpenAtStartup,Mode=TwoWay}" Content="Iniciar WinCorreios ao ligar o PC"/>
+            <CheckBox FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                      Margin="8" IsChecked="{Binding Path=CheckForUpdates,Mode=TwoWay}" Content="Checar atualizações ao iniciar"/>
+            <TextBlock Margin="8,8,8,0" FontFamily="/Fonts/Roboto-Bold.ttf#Roboto Bold" 
+                   FontSize="16" Text="SOBRE"/>
+            <Rectangle Height="3" Width="Auto" Fill="#153450"/>
+            <TextBlock Margin="8" VerticalAlignment="Center" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                    Text="{Binding ProgramVersion,StringFormat={}Versão: {0}}"/>
+            <TextBlock Foreground="Gray" Margin="8" VerticalAlignment="Center" TextWrapping="Wrap" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" 
+                    Text="WinCorreios é um cliente não-oficial (sem nenhuma ligação com os Correios)
+open-source e gratuito. Contribua para o projeto em nosso Github:"/>
+            <TextBlock Margin="8" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular">
+                <Hyperlink NavigateUri="https://www.github.com/spoikbr/WinCorreios"   RequestNavigate="Github_RequestNavigate">
+                    <TextBlock Text="https://www.github.com/spoikbr/WinCorreios"/>
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+        
+    </Grid>
+</Window>
