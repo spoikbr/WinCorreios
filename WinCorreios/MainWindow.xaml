@@ -221,7 +221,7 @@
                                                 <Style TargetType="Ellipse">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=HasUpdates}" Value="True">
+                                                        <DataTrigger Binding="{Binding Path=HasUnseenUpdates}" Value="True">
                                                             <Setter Property="Visibility" Value="Visible"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -423,7 +423,7 @@
                            Grid.Row="1" Foreground="Gray" TextAlignment="Center">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}Origem: {0}">
-                                <Binding Path="SelectedObject.CountryName" UpdateSourceTrigger="PropertyChanged"/>
+                                <Binding Path="SelectedObject.CountryOrigin" UpdateSourceTrigger="PropertyChanged"/>
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
