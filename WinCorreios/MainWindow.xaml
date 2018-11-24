@@ -23,7 +23,7 @@
                 <scm:SortDescription PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
-        <ContextMenu x:Key="listContextMenu">
+        <ContextMenu x:Key="ObjectsContextMenu">
             <MenuItem 
                   Click="CopyObjectInfo_Click"
                   Header="Copiar Código de rastreio">
@@ -33,10 +33,25 @@
                   Header="Editar Objeto">
             </MenuItem>
             <MenuItem
+                  Click="FinalizeObject_Click"
+                  Header="Arquivar / Desarquivar Objeto">
+
+                <MenuItem.Style>
+                    <Style TargetType="MenuItem">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsDelivered}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </MenuItem.Style>
+            </MenuItem>
+            <MenuItem
                   Click="DeleteObject_Click"
                   Header="Excluir Objeto">
             </MenuItem>
         </ContextMenu>
+       
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -182,9 +197,8 @@
                        ItemsSource="{Binding SortedObjects}" SelectedItem="{Binding SelectedObject,Mode=TwoWay}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
-                            <Setter Property="ContextMenu" Value="{StaticResource listContextMenu}"/>
+                            <Setter Property="ContextMenu" Value="{StaticResource ObjectsContextMenu}"/>
                         </Style>
-
                     </ListView.ItemContainerStyle>
 
                     <ListView.ItemTemplate>

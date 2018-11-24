@@ -146,7 +146,7 @@ namespace WinCorreios.Object
 
             }
         }
-        //Retorna a imagem que será mostrada para o usuário, caso não haja cor específica, retorna a imagem padrão
+        //Retorna a imagem que será mostrada para o usuário, caso não haja cor específica, retorna a cor padrão
         public override TransformedBitmap Image
         {
             get

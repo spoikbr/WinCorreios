@@ -62,7 +62,7 @@ namespace WinCorreios
         }
         public void AddObject(Object.Object ob)
         {
-            if (ob.IsDelivered == true)
+            if (ob.IsDelivered == true || ob.IsUserFinalized == true)
             {
                 vm.FinalizedObjects.Add(ob);
             }
@@ -247,7 +247,7 @@ namespace WinCorreios
                 , MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 vm.SelectedObject.Delete();
-                if (vm.SelectedObject.IsDelivered == true)
+                if (vm.SelectedObject.IsDelivered == true || vm.SelectedObject.IsUserFinalized == true)
                 {
                     vm.FinalizedObjects.Remove(vm.SelectedObject);
                 }
@@ -264,6 +264,30 @@ namespace WinCorreios
             addObject.vm.Object = vm.SelectedObject;
             addObject.vm.IsEditing = true;
             addObject.Show();
+        }
+        private void FinalizeObject_Click(object sender, RoutedEventArgs e)
+        {
+            Object.Object ob = vm.SelectedObject;
+            if (ob.IsUserFinalized == true)
+            {
+                ob.IsUserFinalized = false;
+                ob.Save();
+                vm.InProgressObjects.Add(ob);
+                vm.FinalizedObjects.Remove(ob);                
+            }
+            else
+            {
+                MessageBoxResult result = MessageBox.Show
+                    ("Você tem certeza que deseja arquivar esse objeto?\nEle passará para a aba de objetos finalizados",
+                    "Arquivar Objeto", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.Yes)
+                {
+                    ob.IsUserFinalized = true;
+                    ob.Save();
+                    vm.FinalizedObjects.Add(ob);
+                    vm.InProgressObjects.Remove(ob);
+                }                              
+            }
         }
         public bool visible = true;
         private void HideShow_Click(object sender, EventArgs e)

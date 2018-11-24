@@ -120,7 +120,7 @@ namespace WinCorreios
                 return;
             }
             Object.Delete();
-            if (Object.IsDelivered == true)
+            if (Object.IsDelivered == true || Object.IsUserFinalized == true)
             {
                 addObjectWindow.mainWindow.vm.FinalizedObjects.Remove(Object);
             }
