@@ -7,8 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace WinCorreios
 {
@@ -55,13 +57,15 @@ namespace WinCorreios
                 }                
             }
         }
+
         //O objeto selecionado no momento
         private Object.Object _selectedObject;
         public Object.Object SelectedObject
         {
             get => _selectedObject;
             set
-            {                        
+            {
+                mainWindow.FadeAnimation();
                 SetProperty(ref _selectedObject, value);
                 if (value != null)
                 {
@@ -76,9 +80,8 @@ namespace WinCorreios
                         mainWindow.EventsList.ScrollIntoView(mainWindow.EventsList.Items[0]);
                     }
                 }
-
             }
-        }
+        }        
 
         private ObservableCollection<Object.Object> _inProgressObjects = new ObservableCollection<Object.Object>();
         public ObservableCollection<Object.Object> InProgressObjects

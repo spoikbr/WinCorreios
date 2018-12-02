@@ -1,5 +1,6 @@
 ﻿<Window x:Class="WinCorreios.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -18,6 +19,9 @@
         <local:MainWindowVM/>
     </Window.DataContext>
     <Window.Resources>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation From="0"  To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+        </Storyboard>
         <CollectionViewSource x:Key='ObjectsList' Source="{Binding OnGoingObjects}">
             <CollectionViewSource.SortDescriptions>
                 <scm:SortDescription PropertyName="Name" />
@@ -143,7 +147,30 @@
                                         <TextBlock Foreground="White" HorizontalAlignment="Center" 
                                                Style="{StaticResource ButtonTextBlock}" FontSize="13" Text="PENDENTES"/>
                                     </StackPanel>
-                                    <Rectangle Visibility="Collapsed" VerticalAlignment="Bottom" Name="Line" Fill="#8FBCDB" Width="Auto" Height="2.5"/>
+                                    <Rectangle VerticalAlignment="Bottom" Name="Line" Fill="#8FBCDB" Width="Auto" Height="2.5">
+                                        <Rectangle.Style>
+                                            <Style TargetType="Rectangle">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ObjectsListTab}" Value="0">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation From="0"  To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation From="1"  To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="Control.IsMouseOver" Value="True">
@@ -153,11 +180,7 @@
                                             </Setter.Value>
                                         </Setter>
                                     </Trigger>
-                                    <DataTrigger Binding="{Binding ObjectsListTab}" Value="0">
-                                        <Setter TargetName="Line" Property="Visibility" Value="Visible">
-
-                                        </Setter>
-                                    </DataTrigger>
+                                    
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
@@ -170,8 +193,30 @@
                                         <TextBlock Foreground="White" HorizontalAlignment="Center" 
                                                Style="{StaticResource ButtonTextBlock}" FontSize="13" Text="FINALIZADOS"/>
                                     </StackPanel>
-                                    <Rectangle Visibility="Collapsed" 
-                                           VerticalAlignment="Bottom" Name="Line" Fill="#8FBCDB" Width="Auto" Height="2.5"/>
+                                    <Rectangle Opacity="0" VerticalAlignment="Bottom" Name="Line" Fill="#8FBCDB" Width="Auto" Height="2.5">
+                                        <Rectangle.Style>
+                                            <Style TargetType="Rectangle">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding ObjectsListTab}" Value="1">
+                                                        <DataTrigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation From="0"  To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.EnterActions>
+                                                        <DataTrigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation From="1"  To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </DataTrigger.ExitActions>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Rectangle.Style>
+                                    </Rectangle>
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="Control.IsMouseOver" Value="True">
@@ -181,11 +226,6 @@
                                             </Setter.Value>
                                         </Setter>
                                     </Trigger>
-                                    <DataTrigger Binding="{Binding ObjectsListTab}" Value="1">
-                                        <Setter TargetName="Line" Property="Visibility" Value="Visible">
-
-                                        </Setter>
-                                    </DataTrigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
@@ -237,6 +277,14 @@
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding Path=HasUnseenUpdates}" Value="True">
                                                             <Setter Property="Visibility" Value="Visible"/>
+                                                            <DataTrigger.EnterActions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                        <DoubleAnimation From="0"  To="1" Storyboard.TargetProperty="Opacity" 
+                                                                                         AutoReverse="True" RepeatBehavior="Forever"  Duration="0:0:1" />
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </DataTrigger.EnterActions>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -318,10 +366,24 @@
                         FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" FontSize="14">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                                
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsUpdating}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <DataTrigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="0"  To="1" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.EnterActions>
+                                        <DataTrigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="1"  To="0" Storyboard.TargetProperty="Opacity" Duration="0:0:0.2" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </DataTrigger.ExitActions>
+                                        
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -347,7 +409,7 @@
         <GridSplitter Grid.Column="1" Width="2" ResizeBehavior="PreviousAndNext" 
                       HorizontalAlignment="Stretch" ResizeDirection="Columns" Background="LightGray">
         </GridSplitter>
-        <Grid Grid.Column="2" Background="White">
+        <Grid x:Name="DetailsGrid" Grid.Column="2" Background="White">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
@@ -360,29 +422,44 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Background="#FFF0F0F0" Height="Auto" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0">
+                
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Foreground="Gray" Margin="8,8,0,0" VerticalAlignment="Center" 
+                <TextBlock x:Name="SROCodeTxt" Grid.ColumnSpan="2" Grid.Row="0" Grid.Column="0" Foreground="Gray" Margin="8,8,0,0" VerticalAlignment="Center" 
                        FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" Text="{Binding SelectedObject.TrackingCode}" FontSize="20">
                 </TextBlock>
-                <TextBlock Grid.ColumnSpan="2" Width="Auto" 
+                <TextBlock x:Name="NameTxt" Grid.ColumnSpan="2" Width="Auto" 
                            HorizontalAlignment="Left" FontFamily="/Fonts/Roboto-Regular.ttf#Roboto Regular" Grid.Row="1"
                        FontSize="38" Margin="6,6,0,6" >
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
-                            <Setter Property="Text" Value="{Binding Path=SelectedObject.Name}"/>
+                            <Setter Property="Text" Value="{Binding Path=SelectedObject.Name,NotifyOnTargetUpdated=True}"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding SelectedObject}" Value="{x:Null}">
                                     <Setter Property="Text" Value="Nenhum Objeto Selecionado"/>
                                 </DataTrigger>
+                                
                             </Style.Triggers>
                         </Style>
+                        
                     </TextBlock.Style>
+                    <TextBlock.Triggers>
+                        <EventTrigger RoutedEvent="Binding.SourceUpdated">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation  Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:1"/>
+                                    </Storyboard>
+                                        
+                                </BeginStoryboard>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
                 </TextBlock>
-                <Grid Margin="5" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0">
+                <Grid x:Name="Details" Margin="5" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0">
                     <Grid.Style>
                         <Style TargetType="Grid">
                             <Setter Property="Visibility" Value="Visible"/>
@@ -460,6 +537,7 @@
                         <Setter Property="Focusable" Value="false"/>
                     </Style>
                 </ListView.ItemContainerStyle>
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <Grid Margin="5" Height="100">
